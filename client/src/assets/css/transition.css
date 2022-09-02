@@ -1,0 +1,12 @@
+.route-slide-enter-from {
+	transform: translateX(-20vw);
+	opacity: 0;
+}
+.route-slide-enter-active,
+.route-slide-leave-active {
+	transition: all 0.4s ease;
+}
+.route-slide-leave-to {
+	transform: translateX(80vw);
+	opacity: 0;
+}

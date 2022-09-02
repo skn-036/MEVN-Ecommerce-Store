@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lato:wght@400;700&display=swap');
+/* body {
+  font-family: 'Josefin Sans', sans-serif;
+} */
+
+:root {
+  --violet: #7e33e0;
+  --violet-hover: #6d1dd6;
+  --accent: #fb2e86;
+  --accent-hover: #e71c74;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container-margin {
+    @apply mx-2 xs:mx-8 md:mx-24 lg:mx-56
+  }
+  .container-padding {
+    @apply px-2 xs:px-8 md:px-24 lg:px-56
+  }
+  .container-left {
+    @apply left-2 xs:left-8 md:left-24 lg:left-56
+  }
+  .container-right {
+    @apply right-2 xs:right-8 md:right-24 lg:right-56
+  }
+  .form-input {
+    @apply block w-full px-4 py-2 text-base font-normal text-gray-400 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-800 focus:bg-white focus:border-violet focus:outline-none
+  }
+  .button-duotone {
+    @apply text-white bg-gradient-to-br from-accent to-violet hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 font-medium rounded-md text-sm px-5 py-2.5 text-center
+  }
+  .button-violet {
+    @apply text-white bg-violet hover:bg-violet-hover active:bg-violet-hover focus:outline-none font-medium rounded-md text-sm px-5 py-2.5 text-center flex items-center justify-center
+  }
+}
+
+@layer utilities {
+  .h-inherit {
+    height: inherit !important; 
+  }
+  .w-inherit {
+    width: inherit !important;
+  }
+}
+
