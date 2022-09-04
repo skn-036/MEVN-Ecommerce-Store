@@ -65,7 +65,7 @@
 
 <template>
 	<Swiper
-		:spaceBetween="30"
+		:spaceBetween="5"
 		:centeredSlides="true"
 		:autoplay="{
 			delay: 3000,

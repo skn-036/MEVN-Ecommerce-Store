@@ -7,14 +7,18 @@
 	import * as yup from 'yup';
 	import { runYupValidation } from '@/composables/validation/useYupValidation';
 
-	interface LoginForm {
+	interface RegistrationForm {
+		name: string;
 		email: string;
 		password: string;
+		confirmPassword: string;
 	}
 
-	interface LoginFormError {
+	interface RegistrationFormError {
+		name?: string;
 		email?: string;
 		password?: string;
+		confirmPassword?: string;
 	}
 
 	const route = useRoute();
@@ -23,35 +27,50 @@
 
 	const { authUser, accessToken } = useAppConfig();
 
-	const loginSchema = yup.object().shape({
+	const RegistrationSchema = yup.object().shape({
+		name: yup.string().required(),
 		email: yup.string().required().email(),
-		password: yup.string().required().min(4),
+		password: yup
+			.string()
+			.oneOf([yup.ref('confirmPassword'), null], "Password doesn't match")
+			.required()
+			.min(8),
+		confirmPassword: yup.string().nullable(),
 	});
 
 	const showPassword = ref<boolean>(false);
 
-	const loginForm = ref<LoginForm>({ email: '', password: '' });
-	const loginFormError = ref<LoginFormError>({ email: '', password: '' });
-	const credentialsmisMatched = ref<boolean>(false);
+	const registrationForm = ref<RegistrationForm>({
+		name: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
+	});
+	const registrationFormError = ref<RegistrationFormError>({
+		name: '',
+		email: '',
+		password: '',
+	});
 
-	const handleSubmit = async () => {
+	const handleSubmit = async (): Promise<void> => {
 		try {
-			credentialsmisMatched.value = false;
-
-			const validation = await runYupValidation(loginSchema, loginForm.value);
+			const validation = await runYupValidation(
+				RegistrationSchema,
+				registrationForm.value
+			);
 			const { validated, data, errors } = validation;
 			if (!validated) {
-				if (errors) loginFormError.value = errors;
+				if (errors) registrationFormError.value = errors;
 				return;
 			}
 
-			loginFormError.value = { email: '', password: '' };
+			registrationFormError.value = { name: '', email: '', password: '' };
 			if (!data) return;
 
-			const response: AxiosResponse = await axios.post('/api/auth/login', {
+			const response: AxiosResponse = await axios.post('/api/auth/register', {
 				...data,
 			});
-			if (response.data && response.status === 200) {
+			if (response.data && response.status === 201) {
 				authUser.value = response.data.user;
 				accessToken.value = response.data.token;
 
@@ -59,8 +78,16 @@
 			}
 		} catch (error) {
 			if (error instanceof AxiosError) {
-				if (error.response?.status === 400) {
-					credentialsmisMatched.value = true;
+				const err = error?.response?.data;
+				if (
+					parseInt(err?.code) === 11000 &&
+					err?.keyPattern?.email === 1 &&
+					err?.keyValue.email === registrationForm.value.email
+				) {
+					registrationFormError.value = {
+						...registrationFormError.value,
+						email: 'this email is already registered',
+					};
 				}
 			}
 			authUser.value = null;
@@ -90,25 +117,35 @@
 					class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 xs:w-10/12 w-11/12 m-auto lg:m-0"
 				>
 					<div class="mb-12 md:mb-0">
-						<div v-if="credentialsmisMatched" class="w-full mb-4">
-							<div class="text-sm text-red-700 font-semibold">
-								Credentials doesn't match
-							</div>
+						<!-- user name input -->
+						<div class="mb-6">
+							<input
+								v-model="registrationForm.name"
+								type="text"
+								class="form-input"
+								placeholder="Name"
+							/>
+							<span
+								v-if="registrationFormError?.name"
+								class="mt-2 text-[13px] font-medium text-red-700"
+							>
+								{{ registrationFormError?.name }}
+							</span>
 						</div>
 
 						<!-- Email input -->
 						<div class="mb-6">
 							<input
-								v-model="loginForm.email"
+								v-model="registrationForm.email"
 								type="email"
 								class="form-input"
 								placeholder="Email address"
 							/>
 							<span
-								v-if="loginFormError?.email"
+								v-if="registrationFormError?.email"
 								class="mt-2 text-[13px] font-medium text-red-700"
 							>
-								{{ loginFormError?.email }}
+								{{ registrationFormError?.email }}
 							</span>
 						</div>
 
@@ -116,7 +153,7 @@
 						<div class="mb-6">
 							<div class="w-full relative">
 								<input
-									v-model="loginForm.password"
+									v-model="registrationForm.password"
 									:type="showPassword ? 'text' : 'password'"
 									class="form-input"
 									placeholder="Password"
@@ -129,11 +166,23 @@
 								/>
 							</div>
 							<span
-								v-if="loginFormError?.password"
+								v-if="registrationFormError?.password"
 								class="mt-2 text-[13px] font-medium text-red-700"
 							>
-								{{ loginFormError?.password }}
+								{{ registrationFormError?.password }}
 							</span>
+						</div>
+
+						<!-- Confirm Password input -->
+						<div class="mb-6">
+							<div class="w-full relative">
+								<input
+									v-model="registrationForm.confirmPassword"
+									:type="showPassword ? 'text' : 'password'"
+									class="form-input"
+									placeholder="Confirm password"
+								/>
+							</div>
 						</div>
 
 						<div class="flex flex-col lg:flex-row gap-4">
@@ -141,7 +190,7 @@
 								class="button-violet w-full uppercase"
 								@click="handleSubmit"
 							>
-								Login
+								Register
 							</button>
 							<button class="button-violet w-full uppercase">
 								<svg
@@ -168,19 +217,14 @@
 								class="text-sm font-semibold mt-3 flex justify-between flex-col lg:flex-row"
 							>
 								<p>
-									Don't have an account?
+									Already have an account?
 									<span
 										class="text-blue-700 hover:text-violet active:text-violet transition duration-200 ease-in-out cursor-pointer mb-2 lg:mb-0"
-										@click="$router.push({ name: 'register' })"
+										@click="$router.push({ name: 'login' })"
 									>
-										Register
+										Login
 									</span>
 								</p>
-								<span
-									class="text-gray-800 hover:text-violet active:text-violet transition duration-200 ease-in-out cursor-pointer"
-								>
-									Forgot password?
-								</span>
 							</div>
 						</div>
 					</div>

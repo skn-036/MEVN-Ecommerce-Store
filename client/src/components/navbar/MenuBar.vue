@@ -5,7 +5,7 @@
 </script>
 
 <template>
-	<div
+	<nav
 		class="container-padding bg-white border-b border-gray-100 w-full h-20 flex"
 	>
 		<div class="h-10 flex flex-row items-center my-auto w-full">
@@ -16,5 +16,5 @@
 			<!-- Search -->
 			<Search class="ml-auto w-max" />
 		</div>
-	</div>
+	</nav>
 </template>

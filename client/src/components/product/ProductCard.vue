@@ -2,32 +2,27 @@
 	import { ref } from 'vue';
 	// @ts-ignore
 	import StarRating from 'vue-star-rating';
-	import axios from '@/axios';
-	import { AxiosResponse } from 'axios';
-
 	import useFile from '@/composables/app/useFile';
+	import useUtils from '@/composables/app/useUtils';
 
-	const products = ref([]);
-	const getProducts = async () => {
-		try {
-			const response = await axios.get('products');
-			console.log(response.data);
-		} catch (error) {}
-	};
-	getProducts();
+	const { generateRandomNumber } = useUtils();
 
 	const { resolvePathUrl } = useFile();
 </script>
 
 <template>
-	<div class="w-[270px] rounded-sm shadow-md group cursor-pointer">
+	<div
+		class="w-[270px] rounded-sm shadow-md shadow-stone-300 group cursor-pointer"
+	>
 		<!-- image -->
 		<div
 			class="w-full h-52 bg-[#F6F7FB] flex items-center justify-center relative"
 		>
 			<img
 				class="w-44 h-44"
-				:src="resolvePathUrl('images/shop/product/11.png')"
+				:src="
+					resolvePathUrl(`images/shop/product/${generateRandomNumber(11)}.png`)
+				"
 			/>
 
 			<!-- icons -->

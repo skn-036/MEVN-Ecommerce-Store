@@ -1,4 +1,4 @@
-import { computed } from '@vue/reactivity';
+import { computed, ref } from 'vue';
 import { store } from '@/store';
 import { User } from '@/types/user/user';
 
@@ -20,7 +20,7 @@ const useAppConfig = () => {
 
 	/**
 	 * --------------------------------------------------------------
-	 * store current window width as a store state
+	 * authenticated user instance
 	 * --------------------------------------------------------------
 	 */
 	const authUser = computed<User | null>({
@@ -30,12 +30,12 @@ const useAppConfig = () => {
 		},
 	});
 
-	const accessToken = computed<string | null>({
-		get: () => store.state.appState.accessToken,
-		set: value => {
-			store.commit('updateAccessToken', value);
-		},
-	});
+	/**
+	 * --------------------------------------------------------------
+	 * jwt access token
+	 * --------------------------------------------------------------
+	 */
+	const accessToken = ref<string | null>(null);
 
 	return {
 		currentWindowWidth,

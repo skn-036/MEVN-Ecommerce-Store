@@ -4,6 +4,15 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import config from '@src/config/config';
 
+/**
+ * --------------------------------------------------------------------------------
+ * registers a new user
+ * --------------------------------------------------------------------------------
+ * req valid params: name, email, password
+ * returns { newUser, accessToken } after successful request
+ * returns errorStatusCodes(400, 500 series) on error
+ * --------------------------------------------------------------------------------
+ */
 export const handleRegister = async (req: Request, res: Response) => {
 	try {
 		const { name, email, password } = req.body;
@@ -12,35 +21,43 @@ export const handleRegister = async (req: Request, res: Response) => {
 		const userData = new User({ name, email, password });
 		let newUser = await userData.save();
 
-		if (newUser) {
-			const accessToken: string = jwt.sign(
-				{ id: newUser._id },
-				config.JWT_AUTH_TOKEN_SECRET,
-				{ expiresIn: config.JWT_AUTH_TOKEN_EXPIRES_IN }
-			);
-			const refreshToken: string = jwt.sign(
-				{ id: newUser._id },
-				config.JWT_REFRESH_TOKEN_SECRET,
-				{ expiresIn: config.JWT_REFRESH_TOKEN_EXPIRES_IN }
-			);
-			newUser.token = refreshToken;
-			newUser = await newUser.save();
-			const user = await User.findById(newUser._id);
-			res
-				.cookie('refresh-token', refreshToken, {
-					httpOnly: true,
-					secure: true,
-					sameSite: 'none',
-				})
-				.status(201)
-				.json({ user, token: accessToken });
-		}
-		res.sendStatus(500);
+		if (!newUser) return res.sendStatus(500);
+
+		const accessToken: string = jwt.sign(
+			{ id: newUser._id },
+			config.JWT_AUTH_TOKEN_SECRET,
+			{ expiresIn: config.JWT_AUTH_TOKEN_EXPIRES_IN }
+		);
+		const refreshToken: string = jwt.sign(
+			{ id: newUser._id },
+			config.JWT_REFRESH_TOKEN_SECRET,
+			{ expiresIn: config.JWT_REFRESH_TOKEN_EXPIRES_IN }
+		);
+		newUser.token = refreshToken;
+		newUser = await newUser.save();
+		const user = await User.findById(newUser._id);
+		res
+			.cookie('refresh-token', refreshToken, {
+				httpOnly: true,
+				secure: true,
+				sameSite: 'none',
+			})
+			.status(201)
+			.json({ user, token: accessToken });
 	} catch (error) {
 		res.status(500).send(error);
 	}
 };
 
+/**
+ * --------------------------------------------------------------------------------
+ * handles login
+ * --------------------------------------------------------------------------------
+ * req valid params: email, password
+ * returns { loggedInUser, accessToken } after successful request
+ * returns errorStatusCodes(400, 500 series) on error
+ * --------------------------------------------------------------------------------
+ */
 export const handleLogin = async (req: Request, res: Response) => {
 	try {
 		const { email, password } = req.body;
@@ -85,6 +102,14 @@ export const handleLogin = async (req: Request, res: Response) => {
 	}
 };
 
+/**
+ * --------------------------------------------------------------------------------
+ * verifies the access token
+ * --------------------------------------------------------------------------------
+ * check for Authorization header in req
+ * returns boolean(whether token is authorized)
+ * --------------------------------------------------------------------------------
+ */
 export const verifyAuth = async (req: Request, res: Response) => {
 	try {
 		const authorization: string | string[] | undefined =
@@ -110,6 +135,15 @@ export const verifyAuth = async (req: Request, res: Response) => {
 	}
 };
 
+/**
+ * --------------------------------------------------------------------------------
+ * verifies refresh token
+ * --------------------------------------------------------------------------------
+ * check for refresh-token cookie in req
+ * returns { authUser, newAccessToken } after successful request
+ * returns errorStatusCodes(400, 500 series) on error
+ * --------------------------------------------------------------------------------
+ */
 export const verifyRefreshToken = async (req: Request, res: Response) => {
 	try {
 		const refreshToken = req?.cookies['refresh-token'];
@@ -144,6 +178,15 @@ export const verifyRefreshToken = async (req: Request, res: Response) => {
 	}
 };
 
+/**
+ * --------------------------------------------------------------------------------
+ * logout the current authenticated user
+ * --------------------------------------------------------------------------------
+ * clears the refresh-token cookie
+ * returns successStatusCodes(200 series) after successful request
+ * returns errorStatusCodes(400, 500 series) on error
+ * --------------------------------------------------------------------------------
+ */
 export const handleLogout = async (req: Request, res: Response) => {
 	try {
 		const refreshToken = req?.cookies['refresh-token'];
@@ -157,7 +200,7 @@ export const handleLogout = async (req: Request, res: Response) => {
 					secure: true,
 					sameSite: 'none',
 				})
-				.sendStatus(204);
+				.sendStatus(200);
 		}
 
 		user.token = null;
@@ -172,5 +215,26 @@ export const handleLogout = async (req: Request, res: Response) => {
 			.sendStatus(200);
 	} catch (error) {
 		res.status(500).send(error);
+	}
+};
+
+/**
+ * --------------------------------------------------------------------------------
+ * verifies req email address is already registered
+ * --------------------------------------------------------------------------------
+ * req params email
+ * returns boolean whether email is alread exists
+ * --------------------------------------------------------------------------------
+ */
+export const isUserAlreadyRegistered = async (req: Request, res: Response) => {
+	try {
+		const { email } = req.body;
+		if (!email) return res.json(false);
+
+		const user = await User.findOne({ email });
+		if (user) return res.json(true);
+		else return res.json(false);
+	} catch (error) {
+		return res.json(false);
 	}
 };

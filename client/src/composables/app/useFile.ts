@@ -1,4 +1,10 @@
 const useFile = () => {
+	/**
+	 * --------------------------------------------------------------------------------
+	 * resolves path url of images. path should be reference to
+	 * client/src/assets folder
+	 * --------------------------------------------------------------------------------
+	 */
 	const resolvePathUrl = (
 		assetPath: string,
 		pathPrefix: string = '../../assets/'

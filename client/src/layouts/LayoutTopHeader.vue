@@ -6,17 +6,19 @@
 <template>
 	<!-- navbar -->
 	<div class="w-full">
-		<div class="w-100 sticky top-0 z-[2]">
+		<header class="w-100 sticky top-0 z-[2]">
 			<!-- heading bar -->
 			<HeadingBar />
 			<MenuBar />
-		</div>
+		</header>
 
 		<!-- main content -->
-		<RouterView v-slot="{ Component }">
-			<Transition name="route-slide" mode="out-in">
-				<component :is="Component" />
-			</Transition>
-		</RouterView>
+		<main>
+			<RouterView v-slot="{ Component }">
+				<Transition name="route-slide" mode="out-in">
+					<component :is="Component" />
+				</Transition>
+			</RouterView>
+		</main>
 	</div>
 </template>
