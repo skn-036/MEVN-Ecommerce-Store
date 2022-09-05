@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { store } from '@/store';
 import { User } from '@/types/user/user';
 
@@ -37,11 +37,39 @@ const useAppConfig = () => {
 	 */
 	const accessToken = ref<string | null>(null);
 
+	/**
+	 * --------------------------------------------------------------
+	 * mobile menu visibility state
+	 * --------------------------------------------------------------
+	 */
+	const showMobileMenu = computed<boolean>({
+		get: () => store.state.appState.showMobileMenu,
+		set: val => store.commit('toggleMobileMenu', val),
+	});
+
+	watch(
+		() => currentWindowWidth.value,
+		() => {
+			if (currentWindowWidth.value > 992) toggleMobileMenu(false);
+		}
+	);
+
+	/**
+	 * --------------------------------------------------------------
+	 * toggle mobile menu visibility state
+	 * --------------------------------------------------------------
+	 */
+	const toggleMobileMenu = (show: boolean = false): void => {
+		showMobileMenu.value = show;
+	};
+
 	return {
 		currentWindowWidth,
 		setCurrentWindowWidth,
 		authUser,
 		accessToken,
+		showMobileMenu,
+		toggleMobileMenu,
 	};
 };
 

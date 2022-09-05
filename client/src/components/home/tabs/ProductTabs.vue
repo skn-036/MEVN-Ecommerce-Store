@@ -19,7 +19,9 @@
 <template>
 	<div class="w-full flex flex-col">
 		<!-- heading -->
-		<h2 class="text-[42px] text-[#1A0B5B] font-bold mx-auto w-max h-max mb-1">
+		<h2
+			class="text-2xl md:text-[42px] text-[#1A0B5B] font-bold mx-auto w-max h-max mb-1"
+		>
 			Our Products
 		</h2>
 

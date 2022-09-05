@@ -8,7 +8,7 @@
 	<div class="w-full">
 		<header class="w-100 sticky top-0 z-[2]">
 			<!-- heading bar -->
-			<HeadingBar />
+			<HeadingBar class="hidden lg:flex" />
 			<MenuBar />
 		</header>
 

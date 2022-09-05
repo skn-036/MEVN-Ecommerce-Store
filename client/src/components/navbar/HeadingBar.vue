@@ -18,16 +18,16 @@
 			class="flex-grow-0 ml-auto mr-auto md:mr-0 flex flex-row align-middle justify-end text-[#f1f1f1]"
 		>
 			<!-- locale selector -->
-			<Locale class="my-auto mr-4" />
+			<Locale class="my-auto mr-6 lg:mr-8" />
 
 			<!-- currency selector -->
-			<Currency class="my-auto mr-4 w-max" />
+			<Currency class="my-auto mr-6 lg:mr-8 w-max" />
 
 			<!-- Login -->
-			<Login class="my-auto mr-4 w-max" />
+			<Login class="my-auto mr-6 lg:mr-8 w-max" />
 
 			<!-- wishlist -->
-			<Wishlist class="my-auto mr-4 w-max" />
+			<Wishlist class="my-auto mr-6 lg:mr-8 w-max" />
 
 			<!-- cart -->
 			<Cart class="my-auto w-max" />

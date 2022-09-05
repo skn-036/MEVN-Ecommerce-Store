@@ -20,7 +20,9 @@
 <template>
 	<div class="w-full">
 		<!-- title -->
-		<h2 class="text-[42px] text-[#1A0B5B] font-bold mx-auto w-max h-max mb-10">
+		<h2
+			class="text-2xl md:text-[42px] text-[#1A0B5B] font-bold mx-auto w-max h-max mb-10"
+		>
 			Featured Products
 		</h2>
 
