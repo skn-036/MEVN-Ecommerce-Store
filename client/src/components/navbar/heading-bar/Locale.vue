@@ -39,7 +39,7 @@
 			<div>
 				<MenuButton
 					v-slot="{ open }"
-					class="my-auto flex flex-row text-[#f1f1f1] text-[16px]"
+					class="my-auto flex flex-row text-navy lg:text-[#f1f1f1] text-[16px]"
 				>
 					<span class="mr-2 my-auto">{{ activeLocale.title }}</span>
 					<FaIcon

@@ -16,7 +16,7 @@
 
 <template>
 	<div
-		class="flex flex-col lg:flex-row text-[16px] text-[#0D0E43] h-5 font-lato"
+		class="flex flex-col lg:flex-row text-base text-navy h-max lg:h-5 font-lato"
 	>
 		<RouterLink
 			:to="{ name: 'home' }"

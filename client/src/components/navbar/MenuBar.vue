@@ -6,18 +6,18 @@
 </script>
 
 <template>
-	<nav
-		class="container-padding bg-white border-b border-gray-100 w-full h-16 flex"
-	>
-		<div class="h-10 flex flex-row items-center my-auto w-full">
-			<!-- Logo -->
-			<Logo class="mr-20" />
-			<!-- Menu -->
-			<Menu class="flex-1 hidden lg:flex" />
-			<!-- Search -->
-			<Search class="ml-auto w-max hidden lg:flex" />
+	<div class="w-full bg-white border-b border-gray-100">
+		<nav class="container-padding w-full h-16 flex">
+			<div class="h-10 flex flex-row items-center my-auto w-full">
+				<!-- Logo -->
+				<Logo class="mr-20" />
+				<!-- Menu -->
+				<Menu class="flex-1 hidden lg:flex" />
+				<!-- Search -->
+				<Search class="ml-auto w-max hidden lg:flex" />
 
-			<MobileMenu />
-		</div>
-	</nav>
+				<MobileMenu />
+			</div>
+		</nav>
+	</div>
 </template>

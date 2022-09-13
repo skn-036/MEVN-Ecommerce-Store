@@ -16,6 +16,8 @@ module.exports = {
 			colors: {
 				violet: '#7E33E0',
 				accent: '#FB2E86',
+				navy: '#1A0B5B',
+				medium: '#72718F',
 				'accent-hover': '#e71c74',
 				'violet-hover': '#6d1dd6',
 			},

@@ -3,6 +3,7 @@ import User from '@src/models/user.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import config from '@src/config/config';
+import { convertJwtExpireTimeToDate } from '@src/utils/composables/appUtils';
 
 /**
  * --------------------------------------------------------------------------------
@@ -41,6 +42,9 @@ export const handleRegister = async (req: Request, res: Response) => {
 				httpOnly: true,
 				secure: true,
 				sameSite: 'none',
+				expires: convertJwtExpireTimeToDate(
+					config.JWT_REFRESH_TOKEN_EXPIRES_IN
+				),
 			})
 			.status(201)
 			.json({ user, token: accessToken });
@@ -94,6 +98,9 @@ export const handleLogin = async (req: Request, res: Response) => {
 				httpOnly: true,
 				secure: true,
 				sameSite: 'none',
+				expires: convertJwtExpireTimeToDate(
+					config.JWT_REFRESH_TOKEN_EXPIRES_IN
+				),
 			})
 			.status(200)
 			.json({ user: loggedUser, token: accessToken });

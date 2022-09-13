@@ -1,6 +1,7 @@
 <script setup lang="ts">
 	import HeadingBar from '@/components/navbar/HeadingBar.vue';
 	import MenuBar from '@/components/navbar/MenuBar.vue';
+	import Footer from '@/components/footer/Footer.vue';
 </script>
 
 <template>
@@ -20,5 +21,10 @@
 				</Transition>
 			</RouterView>
 		</main>
+
+		<!-- footer -->
+		<footer>
+			<Footer />
+		</footer>
 	</div>
 </template>

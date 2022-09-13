@@ -7,7 +7,7 @@
 	<div class="container-padding flex flex-col">
 		<!-- heading -->
 		<h2
-			class="text-2xl md:text-[42px] text-[#1A0B5B] font-bold mx-auto w-max h-max mb-4"
+			class="text-2xl md:text-[42px] text-navy font-bold mx-auto w-max h-max mb-8"
 		>
 			Our Offers
 		</h2>
@@ -24,9 +24,7 @@
 					:src="resolvePathUrl('images/home/our-offers/premium-quality.png')"
 					class="w-14 h-14 mb-4 mx-auto"
 				/>
-				<div class="mx-auto mb-2 text-[#1A0B5B] font-medium">
-					Premium Quality
-				</div>
+				<div class="mx-auto mb-2 text-navy font-medium">Premium Quality</div>
 				<div class="mx-auto text-center text-sm text-gray-600">
 					Lorem ipsum dolor sit amet consectetur, adipisicing elit.
 				</div>
@@ -40,7 +38,7 @@
 					:src="resolvePathUrl('images/home/our-offers/24-7-support.png')"
 					class="w-14 h-14 mb-4 mx-auto"
 				/>
-				<div class="mx-auto mb-2 text-[#1A0B5B] font-medium">24/7 Support</div>
+				<div class="mx-auto mb-2 text-navy font-medium">24/7 Support</div>
 				<div class="mx-auto text-center text-sm text-gray-600">
 					Lorem ipsum dolor sit amet consectetur, adipisicing elit.
 				</div>
@@ -54,9 +52,7 @@
 					:src="resolvePathUrl('images/home/our-offers/cashback.png')"
 					class="w-14 h-14 mb-4 mx-auto"
 				/>
-				<div class="mx-auto mb-2 text-[#1A0B5B] font-medium">
-					Cashback Guarantee
-				</div>
+				<div class="mx-auto mb-2 text-navy font-medium">Cashback Guarantee</div>
 				<div class="mx-auto text-center text-sm text-gray-600">
 					Lorem ipsum dolor sit amet consectetur, adipisicing elit.
 				</div>
@@ -70,7 +66,7 @@
 					:src="resolvePathUrl('images/home/our-offers/free-shipment.png')"
 					class="w-14 h-14 mb-4 mx-auto"
 				/>
-				<div class="mx-auto mb-2 text-[#1A0B5B] font-medium">Free Shipment</div>
+				<div class="mx-auto mb-2 text-navy font-medium">Free Shipment</div>
 				<div class="mx-auto text-center text-sm text-gray-600">
 					Lorem ipsum dolor sit amet consectetur, adipisicing elit.
 				</div>

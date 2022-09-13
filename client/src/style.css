@@ -6,8 +6,10 @@
 :root {
   --violet: #7e33e0;
   --violet-hover: #6d1dd6;
+  --navy: #1A0B5B;
   --accent: #fb2e86;
   --accent-hover: #e71c74;
+  --medium: #72718F;
 }
 
 @tailwind base;
@@ -19,7 +21,7 @@
     @apply mx-2 xs:mx-8 md:mx-24 lg:mx-56
   }
   .container-padding {
-    @apply px-2 xs:px-8 md:px-24 lg:px-56
+    @apply container mx-auto px-2 xs:px-8 md:px-24 lg:px-56
   }
   .container-left {
     @apply left-2 xs:left-8 md:left-24 lg:left-56
@@ -34,7 +36,13 @@
     @apply text-white bg-gradient-to-br from-accent to-violet hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 font-medium rounded-md text-sm px-5 py-2.5 text-center
   }
   .button-violet {
-    @apply text-white bg-violet hover:bg-violet-hover active:bg-violet-hover focus:outline-none font-medium rounded-md text-sm px-5 py-2.5 text-center flex items-center justify-center
+    @apply text-white bg-violet hover:bg-violet-hover active:bg-violet-hover focus:outline-none font-medium rounded-md px-5 py-2.5 text-center flex items-center justify-center
+  }
+  .button-accent {
+    @apply text-white bg-accent hover:bg-accent-hover active:bg-accent-hover focus:outline-none font-medium rounded-md px-5 py-2.5 text-center flex items-center justify-center
+  }
+  .centered {
+    @apply flex justify-center items-center
   }
 }
 
