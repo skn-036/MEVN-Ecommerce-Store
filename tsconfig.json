@@ -103,6 +103,6 @@
 		// "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */
 	},
-	"exclude": ["./client", "./node_modules"],
+	"exclude": ["./client", "./client-vue", "./client-react", "./node_modules"],
 	"include": ["./server"]
 }

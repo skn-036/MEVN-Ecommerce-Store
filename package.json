@@ -5,9 +5,12 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "cross-env TS_NODE_BASEURL=./server/dist node -r tsconfig-paths/register -r ts-node/register ./server/dist/index.js",
-		"client": "npm run dev --prefix client",
+		"client-vue": "npm run dev --prefix client-vue",
+		"client-react": "npm run dev --prefix client-react",
 		"server": "tsc-watch --onSuccess \"npm start\"",
-		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"dev": "concurrently \"npm run server\" \"npm run client-vue\" \"npm run client-react\"",
+		"dev-vue": "concurrently \"npm run server\" \"npm run client-vue\"",
+		"dev-react": "concurrently \"npm run server\" \"npm run client-react\"",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
