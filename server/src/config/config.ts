@@ -10,6 +10,7 @@ interface Config {
 	JWT_AUTH_TOKEN_EXPIRES_IN: string | number;
 	JWT_REFRESH_TOKEN_EXPIRES_IN: string | number;
 	ALLOWED_ORIGINS: string[];
+	STRIPE_PRIVATE_KEY: string;
 }
 
 const config: Config = {
@@ -36,6 +37,8 @@ const config: Config = {
 				'http://127.0.0.1:5000',
 				'http://127.0.0.1:3000',
 		  ],
+
+	STRIPE_PRIVATE_KEY: process.env.STRIPE_PRIVATE_KEY || '',
 };
 
 export default config;

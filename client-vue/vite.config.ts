@@ -1,19 +1,17 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
+import dotenv from 'dotenv';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-	console.log(process.cwd());
-	const env = loadEnv(mode, process.cwd());
-	const processEnvValues = {
-		'process.env': Object.entries(env).reduce((prev, [key, val]) => {
-			return {
-				...prev,
-				[key]: val,
-			};
-		}, {}),
-	};
+export default defineConfig(() => {
+	// load env from app root
+	const env = dotenv.config({ path: path.join(process.env.INIT_CWD, '.env') });
+	// filter the env vars starts with 'CLIENT_'
+	const clientEnv = Object.entries(env.parsed)
+		.filter(([key, _]) => key.startsWith('CLIENT_'))
+		.reduce((clientEnv, [key, value]) => ({ ...clientEnv, [key]: value }), {});
+
 	return {
 		plugins: [vue()],
 		resolve: {
@@ -23,17 +21,13 @@ export default defineConfig(({ mode }) => {
 				'@images': path.resolve(__dirname, './src/assets/images'),
 			},
 		},
-		envDir: process.cwd(),
 		define: {
-			'process.env': processEnvValues,
+			'process.env': clientEnv,
 		},
-		// envDir: process.cwd(),
-		// define: {
-		// 	__APP_ENV__: env.APP_ENV,
-		// },
 	};
 });
 
+// basic config
 // export default defineConfig({
 // 	plugins: [vue()],
 // 	resolve: {
@@ -43,5 +37,4 @@ export default defineConfig(({ mode }) => {
 // 			'@images': path.resolve(__dirname, './src/assets/images'),
 // 		},
 // 	},
-// 	envDir: __dirname,
 // });

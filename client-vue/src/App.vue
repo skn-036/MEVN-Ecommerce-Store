@@ -6,8 +6,6 @@
 	window.addEventListener('resize', () => {
 		setCurrentWindowWidth();
 	});
-	console.log(process.env, import.meta.env);
-	// console.log(import.meta.env, import.meta.env.VITE_TEST, import.meta.env.TEST);
 </script>
 
 <template>

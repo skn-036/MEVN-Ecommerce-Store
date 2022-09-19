@@ -11,6 +11,7 @@ import verifyAuthentication from '@src/middlewares/auth/verifyAuthentication';
 
 import authRoutes from '@src/routes/auth.routes';
 import productRoutes from '@src/routes/product.routes';
+import checkoutRoutes from '@src/routes/checkout.routes';
 
 const app: Express = express();
 connectDB();
@@ -24,7 +25,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 // routes do not required authentication
+// auth routes
 app.use('/api/auth', authRoutes);
+
+// checkout
+app.use('/api/checkout', checkoutRoutes);
 
 // auth middleware
 app.use(verifyAuthentication);

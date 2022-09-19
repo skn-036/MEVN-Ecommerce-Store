@@ -4,10 +4,11 @@
 	import * as bdDistricts from '@/data/json/district.json';
 	import useAppConfig from '@/composables/app/useAppConfig';
 	import useFile from '@/composables/app/useFile';
+	import axios from '@/axios';
+	import { AxiosResponse, AxiosError } from 'axios';
 
-	const { authUser } = useAppConfig();
+	const { authUser, cssRootVariables } = useAppConfig();
 	const { resolvePathUrl } = useFile();
-	console.log(import.meta.env);
 
 	/**
 	 * --------------------------------------------------------------------------------
@@ -46,32 +47,72 @@
 
 	/**
 	 * --------------------------------------------------------------------------------
-	 * payment method selection
+	 * payment method
 	 * --------------------------------------------------------------------------------
 	 */
 	const paymentMethod = ref<'stripe' | 'paypal' | null>(null);
+	const paymentIntentLoading = ref<boolean>(false);
+	const highlightError = ref<boolean>(false);
 
 	/**
 	 * --------------------------------------------------------------------------------
-	 * payment submission
+	 * payment submission(stripe)
 	 * --------------------------------------------------------------------------------
 	 */
-	const highlightError = ref<boolean>(false);
+	// @ts-ignore
+	const stripe = Stripe(process.env.CLIENT_STRIPE_PUBLIC_KEY);
+	const stripepaymentIntentLoaded = ref<boolean>(false);
 	const onBuy = async (): Promise<void> => {
-		// if not all the required fields filled highlight error message
-		for (let i = 0; i < 3; i++) {
-			await new Promise(resolve => {
-				setTimeout(() => {
-					highlightError.value = true;
-					resolve('');
-				}, 500);
-			});
-			await new Promise(resolve => {
-				setTimeout(() => {
-					highlightError.value = false;
-					resolve('');
-				}, 500);
-			});
+		paymentIntentLoading.value = true;
+
+		// // if not all the required fields filled highlight error message
+		// // will be added later after validating form submission
+
+		// for (let i = 0; i < 3; i++) {
+		// 	await new Promise(resolve => {
+		// 		setTimeout(() => {
+		// 			highlightError.value = true;
+		// 			resolve('');
+		// 		}, 500);
+		// 	});
+		// 	await new Promise(resolve => {
+		// 		setTimeout(() => {
+		// 			highlightError.value = false;
+		// 			resolve('');
+		// 		}, 500);
+		// 	});
+		// }
+
+		try {
+			const response: AxiosResponse = await axios.post(
+				'/api/checkout/create-stripe-intent',
+				{
+					amount: 1400,
+					currency: 'usd',
+				}
+			);
+			if (response.data && response.data.clientSecret) {
+				const appearance = {
+					theme: 'stripe',
+					variables: {
+						colorPrimary: cssRootVariables.value['--accent'],
+						colorText: cssRootVariables.value['--navy'],
+						fontFamily: 'Josefin Sans, sans-serif',
+					},
+				};
+				const elements = stripe.elements({
+					appearance,
+					clientSecret: response.data.clientSecret,
+				});
+				const paymentElement = elements.create('payment');
+				await paymentElement.mount('#stripe-payment-element');
+
+				stripepaymentIntentLoaded.value = true;
+			}
+			paymentIntentLoading.value = false;
+		} catch (error) {
+			paymentIntentLoading.value = false;
+			if (error instanceof AxiosError) console.log(error.response);
 		}
 	};
 </script>
@@ -79,10 +120,10 @@
 <template>
 	<div class="w-full container-padding pt-12 pb-20">
 		<!-- container -->
-		<div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-8">
+		<div class="w-full grid grid-cols-1 lg:grid-cols-9 gap-8">
 			<!-- contact form  -->
 			<div
-				class="lg:col-span-3 rounded-md border border-gray-200 bg-[#fdfdfd] shadow-lg p-6 lg:p-10"
+				class="lg:col-span-5 rounded-md border border-gray-200 bg-[#fdfdfd] shadow-lg p-6 lg:p-10"
 			>
 				<!-- user information -->
 				<div class="text-xl text-navy font-bold mb-4">Contact details*</div>
@@ -296,7 +337,7 @@
 
 			<!-- checkout -->
 			<div
-				class="lg:col-span-2 rounded-md border border-gray-200 bg-[#fdfdfd] shadow-lg p-6 lg:p-10 h-full"
+				class="lg:col-span-4 rounded-md border border-gray-200 bg-[#fdfdfd] shadow-lg p-6 lg:p-10 h-full"
 			>
 				<!-- cart quantity -->
 				<div class="w-full font-lato text-navy border-b border-gray-200">
@@ -317,11 +358,16 @@
 						<div class="">${{ total }}</div>
 					</div>
 				</div>
-
+				<!-- gutter -->
+				<div class="w-full h-6"></div>
 				<!-- payment method selection -->
-				<div class="mt-8 text-navy pb-6 border-b border-gray-200">
+				<div
+					class="text-navy overflow-hidden transition-max-height delay-300 ease-out"
+					:class="stripepaymentIntentLoaded ? 'max-h-0' : 'max-h-max'"
+				>
 					<div class="text-xl text-navy font-bold mb-4">
 						<div>Select Payment method</div>
+
 						<div
 							class="text-sm text-red-600 font-bold"
 							:class="[highlightError ? 'opacity-80 scale-[1.02]' : '']"
@@ -402,15 +448,64 @@
 
 					<!-- buy button -->
 					<div class="w-full">
+						<!-- 	
+									opacity-50 & cursor-not-allowed class is to be added dynamically if contact info
+									contact info not given properly
+						 -->
 						<button
-							class="button-accent w-full opacity-50 cursor-not-allowed"
+							class="button-accent w-full flex items-center justify-center"
 							@click="onBuy"
 						>
-							Buy
+							<div
+								v-if="paymentIntentLoading"
+								class="flex flex-row items-center"
+							>
+								<svg
+									class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+								>
+									<circle
+										class="opacity-25"
+										cx="12"
+										cy="12"
+										r="10"
+										stroke="currentColor"
+										stroke-width="4"
+									></circle>
+									<path
+										class="opacity-75"
+										fill="currentColor"
+										d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+									></path>
+								</svg>
+								<div>Loading...</div>
+							</div>
+							<div v-else>Buy</div>
 						</button>
 					</div>
 				</div>
+
+				<!-- stripe payment intent -->
+				<div
+					v-show="stripepaymentIntentLoaded"
+					class="text-xl text-navy font-bold mb-4"
+				>
+					Paying with credit card
+				</div>
+				<form
+					v-show="stripepaymentIntentLoaded"
+					class="w-full rounded-sm border border-gray-200 shadow-sm p-3 bg-white"
+				>
+					<div id="stripe-payment-element"></div>
+					<button type="submit" class="w-full button-accent mt-4">
+						Make payment
+					</button>
+				</form>
 			</div>
 		</div>
 	</div>
 </template>
+
+<style></style>

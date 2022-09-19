@@ -12,3 +12,11 @@ declare module 'vue/types/vue' {
 		$router: VueRouter;
 	}
 }
+
+declare global {
+	namespace NodeJS {
+		interface ProcessEnv {
+			CLIENT_STRIPE_PUBLIC_KEY?: string;
+		}
+	}
+}

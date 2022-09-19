@@ -1,6 +1,7 @@
 import { computed, ref, watch } from 'vue';
 import { store } from '@/store';
 import { User } from '@/types/user/user';
+import { CssRootVariables } from '@/types/app/css';
 
 const useAppConfig = () => {
 	/**
@@ -17,6 +18,33 @@ const useAppConfig = () => {
 	const setCurrentWindowWidth = (): void => {
 		currentWindowWidth.value = document.documentElement.clientWidth;
 	};
+
+	/**
+	 * --------------------------------------------------------------
+	 * array of all css root variables names
+	 * --------------------------------------------------------------
+	 */
+	const cssVars: string[] = [
+		'--violet',
+		'--violet-hover',
+		'--navy',
+		'--accent',
+		'--accent-hover',
+		'--medium',
+	];
+	/**
+	 * --------------------------------------------------------------
+	 * css root variables
+	 * --------------------------------------------------------------
+	 */
+	const cssRootVariables = computed<CssRootVariables>(() => {
+		const docVars = getComputedStyle(document.documentElement);
+		return cssVars.reduce((styles, style) => {
+			return { ...styles, [style]: docVars.getPropertyValue(style) };
+		}, {});
+		// return cssVars.reduce((vars, var) => ({ ...vars, [var]: docVars.getPropertyValue(var)}), {});
+	});
+	console.log(cssRootVariables.value);
 
 	/**
 	 * --------------------------------------------------------------
@@ -70,6 +98,7 @@ const useAppConfig = () => {
 		accessToken,
 		showMobileMenu,
 		toggleMobileMenu,
+		cssRootVariables,
 	};
 };
 
