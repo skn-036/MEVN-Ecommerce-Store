@@ -21,6 +21,10 @@ module.exports = {
 				'accent-hover': '#e71c74',
 				'violet-hover': '#6d1dd6',
 			},
+			transitionProperty: {
+				width: 'width',
+				height: 'height',
+			},
 		},
 	},
 	plugins: [],

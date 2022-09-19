@@ -74,5 +74,23 @@ const routes: RouteRecordRaw[] = [
 			screen: 'top-header',
 		},
 	},
+	{
+		path: '/cart',
+		name: 'cart',
+		component: () => import('@/pages/Cart.vue'),
+		meta: {
+			requiredAuth: true,
+			screen: 'top-header',
+		},
+	},
+	{
+		path: '/checkout',
+		name: 'checkout',
+		component: () => import('@/pages/Checkout.vue'),
+		meta: {
+			requiredAuth: true,
+			screen: 'top-header',
+		},
+	},
 ];
 export default routes;

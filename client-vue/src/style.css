@@ -4,12 +4,12 @@
 } */
 
 :root {
-  --violet: #7e33e0;
-  --violet-hover: #6d1dd6;
-  --navy: #1A0B5B;
-  --accent: #fb2e86;
-  --accent-hover: #e71c74;
-  --medium: #72718F;
+	--violet: #7e33e0;
+	--violet-hover: #6d1dd6;
+	--navy: #1a0b5b;
+	--accent: #fb2e86;
+	--accent-hover: #e71c74;
+	--medium: #72718f;
 }
 
 @tailwind base;
@@ -17,67 +17,106 @@
 @tailwind utilities;
 
 @layer components {
-  .container-margin {
-    @apply mx-2 xs:mx-8 md:mx-24 lg:mx-56
-  }
-  .container-padding {
-    @apply container mx-auto px-2 xs:px-8 md:px-24 lg:px-36 xl:px-56
-  }
-  .container-left {
-    @apply left-2 xs:left-8 md:left-24 lg:left-56
-  }
-  .container-right {
-    @apply right-2 xs:right-8 md:right-24 lg:right-56
-  }
-  .form-input {
-    @apply block w-full px-4 py-2 text-base font-normal text-gray-400 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-800 focus:bg-white focus:border-violet focus:outline-none
-  }
-  .button-duotone {
-    @apply text-white bg-gradient-to-br from-accent to-violet hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 font-medium rounded-md text-sm px-5 py-2.5 text-center
-  }
-  .button-violet {
-    @apply text-white bg-violet hover:bg-violet-hover active:bg-violet-hover focus:outline-none font-medium rounded-md px-5 py-2.5 text-center flex items-center justify-center
-  }
-  .button-accent {
-    @apply text-white bg-accent hover:bg-accent-hover active:bg-accent-hover focus:outline-none font-medium rounded-md px-5 py-2.5 text-center flex items-center justify-center
-  }
-  .centered {
-    @apply flex justify-center items-center
-  }
+	.container-margin {
+		@apply mx-2 xs:mx-8 md:mx-24 lg:mx-56;
+	}
+	.container-padding {
+		@apply container mx-auto px-2 xs:px-8 md:px-24 lg:px-36 xl:px-56;
+	}
+	.container-left {
+		@apply left-2 xs:left-8 md:left-24 lg:left-56;
+	}
+	.container-right {
+		@apply right-2 xs:right-8 md:right-24 lg:right-56;
+	}
+	.form-input {
+		@apply block w-full px-4 py-2 text-base font-normal text-gray-400 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-800 focus:bg-white focus:border-violet focus:outline-none;
+	}
+	.button-duotone {
+		@apply text-white bg-gradient-to-br from-accent to-violet hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 font-medium rounded-md text-sm px-5 py-2.5 text-center;
+	}
+	.button-violet {
+		@apply text-white bg-violet hover:bg-violet-hover active:bg-violet-hover focus:outline-none font-medium rounded-md px-5 py-2.5 text-center flex items-center justify-center;
+	}
+	.button-accent {
+		@apply text-white bg-accent hover:bg-accent-hover active:bg-accent-hover focus:outline-none font-medium rounded-md px-5 py-2.5 text-center flex items-center justify-center;
+	}
+	.button-green {
+		@apply text-white bg-[#19D16F] hover:bg-[#13c164] active:bg-[#13c164] focus:outline-none font-medium rounded-md px-5 py-2.5 text-center flex items-center justify-center;
+	}
+	.centered {
+		@apply flex justify-center items-center;
+	}
 
-  /* checkbox */
-  .checkbox-group {
-    @apply flex flex-row items-center
-  }
-  .checkbox-group input {
-    @apply w-4 h-4 appearance-none sr-only
-  }
-  .checkbox-group label.checkbox {
-    @apply w-4 h-4 border border-gray-600 rounded-sm relative cursor-pointer
-  }
-  .checkbox-group .checkbox i {
-    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white hidden
-  }
-  .checkbox-group input:checked ~ .checkbox i {
-    @apply block
-  }
-  .checkbox-group input:checked ~ .checkbox.checkbox-navy {
-    @apply bg-navy
-  }
-  .checkbox-group input:checked ~ .checkbox.checkbox-accent {
-    @apply bg-accent
-  }
-  /** any custom checkbox color can be created. in that case, the input field should be given 'peer' class and '.checkbox' should
+	/* checkbox */
+	.checkbox-group {
+		@apply flex flex-row items-center;
+	}
+	.checkbox-group input {
+		@apply w-4 h-4 appearance-none sr-only;
+	}
+	.checkbox-group label.checkbox {
+		@apply w-4 h-4 border border-gray-600 rounded-sm relative cursor-pointer;
+	}
+	.checkbox-group .checkbox i {
+		@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white hidden;
+	}
+	.checkbox-group input:checked ~ .checkbox i {
+		@apply block;
+	}
+	.checkbox-group input:checked ~ .checkbox.checkbox-navy {
+		@apply bg-navy;
+	}
+	.checkbox-group input:checked ~ .checkbox.checkbox-accent {
+		@apply bg-accent;
+	}
+	/** any custom checkbox color can be created. in that case, the input field should be given 'peer' class and '.checkbox' should
     should have given the class 'peer-checked:bg-whatever_color'
   **/
+
+	/** bottom border animation input on focus */
+	/** 'trigger' class can be added to have the same effect any other element than input.
+			'active' class added to 'trigger' class will enter active phase.
+	*/
+	.input-bottom-border-animate {
+		@apply relative;
+	}
+	.input-bottom-border-animate input {
+		@apply w-full outline-none focus:shadow-none bg-transparent indent-1;
+	}
+	.input-bottom-border-animate span:not(.animate) {
+		@apply w-full h-0.5 bg-gray-300 absolute bottom-0 left-0;
+	}
+	.input-bottom-border-animate span.animate {
+		@apply absolute bottom-0 left-0 w-0 h-0 transition-width ease-out delay-300;
+	}
+	.input-bottom-border-animate input:focus ~ span.animate,
+	.input-bottom-border-animate .trigger.active ~ span.animate {
+		@apply w-full h-0.5;
+	}
+	.input-bottom-border-animate input:focus ~ span:not(.animate),
+	.input-bottom-border-animate .trigger.active ~ span:not(.animate) {
+		@apply w-0 h-0;
+	}
 }
 
 @layer utilities {
-  .h-inherit {
-    height: inherit !important; 
-  }
-  .w-inherit {
-    width: inherit !important;
-  }
-}
+	.h-inherit {
+		height: inherit !important;
+	}
+	.w-inherit {
+		width: inherit !important;
+	}
 
+	/* hide input type number arrows */
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		/* display: none; <- Crashes Chrome on hover */
+		-webkit-appearance: none;
+		margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+	}
+
+	input[type='number'] {
+		-moz-appearance: textfield; /* Firefox */
+	}
+}
