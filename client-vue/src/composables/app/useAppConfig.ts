@@ -42,7 +42,6 @@ const useAppConfig = () => {
 		return cssVars.reduce((styles, style) => {
 			return { ...styles, [style]: docVars.getPropertyValue(style) };
 		}, {});
-		// return cssVars.reduce((vars, var) => ({ ...vars, [var]: docVars.getPropertyValue(var)}), {});
 	});
 	console.log(cssRootVariables.value);
 

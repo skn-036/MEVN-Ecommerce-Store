@@ -59,6 +59,15 @@
 	 * payment submission(stripe)
 	 * --------------------------------------------------------------------------------
 	 */
+	/**
+	 * pending here
+	 *
+	 * handle payment
+	 * create a order when user request payment intent is created
+	 * create a webhook to get the payment details in backend.
+	 * mark the order as pain when stripe webhook confirms. typically confirm the order id
+	 *
+	 */
 	// @ts-ignore
 	const stripe = Stripe(process.env.CLIENT_STRIPE_PUBLIC_KEY);
 	const stripepaymentIntentLoaded = ref<boolean>(false);

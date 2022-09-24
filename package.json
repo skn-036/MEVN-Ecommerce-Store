@@ -11,6 +11,8 @@
 		"dev": "concurrently \"npm run server\" \"npm run client-vue\" \"npm run client-react\"",
 		"dev-vue": "concurrently \"npm run server\" \"npm run client-vue\"",
 		"dev-react": "concurrently \"npm run server\" \"npm run client-react\"",
+		"build": "rimraf ./server/dist && tsc",
+		"start-server": "npm run build && npm run start",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
@@ -42,6 +44,7 @@
 		"cross-env": "^7.0.3",
 		"nodemon": "^2.0.19",
 		"prettier": "^2.7.1",
+		"rimraf": "^3.0.2",
 		"ts-node": "^10.9.1",
 		"tsc-watch": "^5.0.3",
 		"tsconfig-paths": "^4.1.0",
