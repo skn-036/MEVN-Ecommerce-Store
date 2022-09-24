@@ -17,6 +17,8 @@ declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			CLIENT_STRIPE_PUBLIC_KEY?: string;
+			CLIENT_ENVIRONMENT?: string;
+			CLIENT_APP_URL?: string;
 		}
 	}
 }

@@ -43,7 +43,6 @@ const useAppConfig = () => {
 			return { ...styles, [style]: docVars.getPropertyValue(style) };
 		}, {});
 	});
-	console.log(cssRootVariables.value);
 
 	/**
 	 * --------------------------------------------------------------

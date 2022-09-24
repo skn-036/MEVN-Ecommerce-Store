@@ -3,6 +3,7 @@ env.config();
 
 interface Config {
 	ENVIRONMENT: string;
+	APP_URL: string;
 	PORT: string | number;
 	MONGO_URI: string | undefined;
 	JWT_AUTH_TOKEN_SECRET: string;
@@ -15,6 +16,7 @@ interface Config {
 
 const config: Config = {
 	ENVIRONMENT: process.env.ENVIRONMENT || 'local',
+	APP_URL: process.env.APP_URL || 'localhost:5000',
 	PORT: process.env.PORT || 5000,
 	MONGO_URI: process.env.MONGO_URI,
 

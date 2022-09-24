@@ -27,7 +27,6 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@types/yup": "^0.32.0",
     "@vitejs/plugin-vue": "^3.0.3",
     "autoprefixer": "^10.4.8",
     "postcss": "^8.4.16",

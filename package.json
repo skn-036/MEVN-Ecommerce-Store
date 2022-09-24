@@ -6,6 +6,7 @@
 	"scripts": {
 		"start": "cross-env TS_NODE_BASEURL=./server/dist node -r tsconfig-paths/register -r ts-node/register ./server/dist/index.js",
 		"client-vue": "npm run dev --prefix client-vue",
+		"build-vue": "npm run build --prefix client-vue",
 		"client-react": "npm run dev --prefix client-react",
 		"server": "tsc-watch --onSuccess \"npm start\"",
 		"dev": "concurrently \"npm run server\" \"npm run client-vue\" \"npm run client-react\"",

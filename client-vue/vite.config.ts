@@ -24,6 +24,9 @@ export default defineConfig(() => {
 		define: {
 			'process.env': clientEnv,
 		},
+		build: {
+			outDir: '../server/dist-vue',
+		},
 	};
 });
 

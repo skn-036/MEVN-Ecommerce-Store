@@ -8,6 +8,8 @@ lerna-debug.log*
 
 node_modules
 server/dist
+server/dist-vue
+server/dist-react
 dist
 dist-ssr
 *.local

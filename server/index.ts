@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express, { Express, Request, Response } from 'express';
 import config from '@src/config/config';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
@@ -24,6 +24,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
+if (config.ENVIRONMENT === 'production') {
+	app.use(express.static('./dist-vue'));
+}
+
 // routes do not required authentication
 // auth routes
 app.use('/api/auth', authRoutes);
@@ -39,4 +43,8 @@ app.use('/api/products', productRoutes);
 
 app.listen(config.PORT, () => {
 	logger.info(`server is running on port ${config.PORT}`);
+});
+
+app.get('*', (req: Request, res: Response) => {
+	res.sendFile('./dist-vue/index.html');
 });
